@@ -9,11 +9,8 @@ matrix:
 script:
 - python build.py
 
-before_script: 
+before_stage: 
     - if [ "$TRAVIS_OS_NAME" = "windows" ]; then mkdir /c/dev1 && cd /c/dev1; fi
-
-before_install:
-    - if [ "$TRAVIS_OS_NAME" = "windows" ]; then cd /c/dev1; fi
 
 notifications:
   email: false
