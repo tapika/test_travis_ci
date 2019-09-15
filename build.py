@@ -21,9 +21,9 @@ if isWindows:
 print("OS: " + platform.system().lower())
 print("Current directory: " + os.getcwd() )
 
-#print("environment variables:")
-#for item, value in os.environ.items():
-#    print('{}: {}'.format(item, value))
+print("environment variables:")
+for item, value in os.environ.items():
+    print('{}: {}'.format(item, value))
 
 #if isWindows:
 #    exitCode=os.system("cmake . && cmake --build .")
