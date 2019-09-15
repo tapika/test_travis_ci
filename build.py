@@ -50,7 +50,8 @@ else:
 def execcmd(cmd):
     exitCode = subprocess.call(cmd, shell=True)
     if exitCode != 0:
-        raise Exception("Command '{}' failed, exit code: {}".format(cmd, exitCode))
+        msg="Command '{}' failed, exit code: {}".format(cmd, exitCode)
+        raise Exception(msg)
 
 #--------------------------------------------------------------
 # Clones git repostory, restores modification times of 
@@ -117,7 +118,8 @@ if not os.path.exists(cachePath):
 
 os.chdir(cachePath)
 
-cmd = "cmake -G Ninja -DCMAKE_BUILD_TYPE={}".format(buildType)
+#cmd = "cmake -G Ninja -DCMAKE_BUILD_TYPE={}".format(buildType)
+cmd = "cmake -DCMAKE_BUILD_TYPE={}".format(buildType)
 
 if isWindows:
     cmd = cmd + ' -DCMAKE_INSTALL_PREFIX:PATH="{}"'.format(os.path.join(scriptDir, "out", "install", cacheDir))
