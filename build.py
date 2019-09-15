@@ -129,9 +129,9 @@ if isWindows:
     #cmd = cmd + ' -DCMAKE_MAKE_PROGRAM="{}"'.format(ninjaPath)
 
     # cmake is really strict even to case sensitive paths. Vs uses 'X' in uppercase.
-    cl_path = os.popen('where cl.exe').read().rstrip().replace("Hostx64", "HostX64")
-    cmd = cmd + ' -DCMAKE_CXX_COMPILER:FILEPATH="{}"'.format(cl_path)
-    cmd = cmd + ' -DCMAKE_C_COMPILER:FILEPATH="{}"'.format(cl_path)
+    #cl_path = os.popen('where cl.exe').read().rstrip().replace("Hostx64", "HostX64")
+    #cmd = cmd + ' -DCMAKE_CXX_COMPILER:FILEPATH="{}"'.format(cl_path)
+    #cmd = cmd + ' -DCMAKE_C_COMPILER:FILEPATH="{}"'.format(cl_path)
 
 cmd = cmd + ' "{}"'.format(projDir)
 
