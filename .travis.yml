@@ -9,21 +9,14 @@ matrix:
 git:
   clone: false
 
-before_script:
-    - if [ "$TRAVIS_OS_NAME" = "windows" ]; then 
-        export TCACHEDIR=/c/dev1/cppreflect/out;
-      else
-        export TCACHEDIR=/home/travis/build/cppreflect/out;
-      fi
-
 cache:
     directories:
-    - $TCACHEDIR
+    - /c/dev1/cppreflect/out
 
 script: 
     # Fail on first failure
     - set -e
-    - if [ "$TRAVIS_OS_NAME" = "windows" ]; then mkdir /c/dev1 && cd /c/dev1; fi
+    - mkdir -p /c/dev1 && cd /c/dev1
     - git clone https://github.com/$TRAVIS_REPO_SLUG.git test_travis_ci && cd test_travis_ci
     - python build.py
 
