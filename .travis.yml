@@ -10,6 +10,8 @@ git:
   clone: false
 
 script: 
+    # Fail on first failure
+    - set -eu
     - if [ "$TRAVIS_OS_NAME" = "windows" ]; then mkdir /c/dev1 && cd /c/dev1; fi
     - git clone https://github.com/$TRAVIS_REPO_SLUG.git_fail test_travis_ci && cd test_travis_ci
     - python build.py
