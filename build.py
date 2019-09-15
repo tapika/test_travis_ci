@@ -20,6 +20,9 @@ if isWindows:
 
     output = os.popen('"{}" && set'.format(vsvars_path)).read()
 
+    print("Importing environment: ")
+    print (output)
+
     for line in output.splitlines():
         pair = line.split("=", 1)
         if(len(pair) >= 2):
