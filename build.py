@@ -15,13 +15,12 @@ printEnv()
 
 if isWindows:
     vswhere_path = r"c:\Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe"
+    print(vswhere_path + str(os.path.exists(vswhere_path)))
+
     vs_path = os.popen('"{}" -latest -property installationPath'.format(vswhere_path)).read().rstrip()
     vsvars_path = os.path.join(vs_path, "VC\\Auxiliary\\Build\\vcvars64.bat")
 
     output = os.popen('"{}" && set'.format(vsvars_path)).read()
-
-    print("Importing environment: ")
-    print (output)
 
     for line in output.splitlines():
         pair = line.split("=", 1)
