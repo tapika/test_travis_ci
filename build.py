@@ -13,9 +13,9 @@ def printEnv():
 
 printEnv()
 
-if isWindows:
-    os.system("python --version")
+os.system("python --version")
 
+if isWindows:
     vswhere_path = r"c:\Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe"
 
     vs_path = os.popen('"{}" -latest -property installationPath'.format(vswhere_path)).read().rstrip()
