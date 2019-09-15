@@ -35,9 +35,21 @@ else:
         if not os.path.islink(path):
             os.utime(path, times)
 
-def gitCloneOrUpdate(gitUrl, dir):
+#--------------------------------------------------------------
+# Start command, if exit code is not zero, throw exception.
+#--------------------------------------------------------------
+def execcmd(cmd):
+    exitCode = subprocess.call(cmd, shell=True)
+    if exitCode != 0:
+        raise Exception("Command '{}' failed, exit code: {}".format(cmd, exitCode))
+
+#--------------------------------------------------------------
+# Clones git repostory, restores modification times of 
+# each file.
+#--------------------------------------------------------------
+def gitClone(gitUrl, dir):
     if not os.path.exists(dir):
-        subprocess.call("git clone {} {}".format(gitUrl, dir), shell=True)
+        execcmd("git clone {} {}".format(gitUrl, dir))
 
     filelist = set()
 
@@ -77,7 +89,7 @@ def gitCloneOrUpdate(gitUrl, dir):
             break
 
 
-gitCloneOrUpdate("https://github.com/tapika/cppreflect", "cppreflect")
+gitClone("https://github.com/tapika/cppreflect", "../cppreflect")
 
 
 #if isWindows:
