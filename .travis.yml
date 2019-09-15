@@ -6,11 +6,13 @@ matrix:
     dist: bionic
   - os: windows
 
-script:
-- python build.py
+git:
+  clone: false
 
-before_stage: 
+script: 
     - if [ "$TRAVIS_OS_NAME" = "windows" ]; then mkdir /c/dev1 && cd /c/dev1; fi
+    - git clone https://github.com/tapika/test_travis_ci/tree/master test_travis_ci && cd test_travis_ci
+    - python build.py
 
 notifications:
   email: false
