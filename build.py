@@ -4,6 +4,15 @@ import subprocess, shlex
 
 isWindows = platform.system().lower().find("windows") != -1
 
+def printEnv():
+    print("---------------------------------------------------")
+    print("Environment variables:")
+    print("---------------------------------------------------")
+    for item, value in os.environ.items():
+        print('{}: {}'.format(item, value))
+
+printEnv()
+
 if isWindows:
     vswhere_path = r"c:\Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe"
     vs_path = os.popen('"{}" -latest -property installationPath'.format(vswhere_path)).read().rstrip()
@@ -17,12 +26,9 @@ if isWindows:
             os.environ[pair[0]] = pair[1]
 
 
+printEnv()
 print("OS: " + platform.system().lower())
 #print("Current directory: " + os.getcwd() )
-
-#print("environment variables:")
-#for item, value in os.environ.items():
-#    print('{}: {}'.format(item, value))
 
 if isWindows:
     subprocess.call("where git", shell=True)
