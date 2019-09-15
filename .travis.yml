@@ -16,7 +16,7 @@ cache:
 script: 
     # Fail on first failure
     - set -e
-    - mkdir -p /c/dev1 && cd /c/dev1
+    - sudo mkdir -p /c/dev1 && cd /c/dev1
     - git clone https://github.com/$TRAVIS_REPO_SLUG.git test_travis_ci && cd test_travis_ci
     - python build.py
 
