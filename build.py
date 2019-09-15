@@ -89,13 +89,45 @@ def gitClone(gitUrl, dir):
             break
 
 
-gitClone("https://github.com/tapika/cppreflect", "../cppreflect")
+scriptDir=os.path.dirname(os.path.realpath(__file__))
 
+projDir = os.path.join(scriptDir, "..", "cppreflect")
+gitClone("https://github.com/tapika/cppreflect", projDir)
 
-#if isWindows:
-#    exitCode=os.system("cmake . && cmake --build .")
-#else:
-#    exitCode=os.system("./bootstrap && make && sudo make install")
+buildType = "Release"
 
-#sys.exit(exitCode)
+if isWindows:
+    cacheDir = "x64-" + buildType
+else:
+    cacheDir = "WSL-" + buildType
+
+cachePath = os.path.join(scriptDir, "..", "cppreflect", "out", cacheDir)
+
+if not os.path.exists(cachePath):
+    os.makedirs(cachePath)
+
+os.chdir(cachePath)
+
+cmd = "cmake -G Ninja -DCMAKE_BUILD_TYPE={}".format(buildType)
+
+if isWindows:
+    cmd = cmd + ' -DCMAKE_INSTALL_PREFIX:PATH="{}"'.format(os.path.join(scriptDir, "out", "install", cacheDir))
+
+    ninjaPath =  os.path.join(os.environ["VSINSTALLDIR"],"Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja\\ninja.exe" )
+    cmd = cmd + ' -DCMAKE_MAKE_PROGRAM="{}"'.format(ninjaPath)
+
+    # cmake is really strict even to case sensitive paths. Vs uses 'X' in uppercase.
+    cl_path = os.popen('where cl.exe').read().rstrip().replace("Hostx64", "HostX64")
+    cmd = cmd + ' -DCMAKE_CXX_COMPILER:FILEPATH="{}"'.format(cl_path)
+    cmd = cmd + ' -DCMAKE_C_COMPILER:FILEPATH="{}"'.format(cl_path)
+
+cmd = cmd + ' "{}"'.format(projDir)
+
+print(cmd)
+execcmd(cmd)
+
+cmd='cmake --build "{}" --config {}'.format(cachePath, buildType)
+print(cmd)
+execcmd(cmd)
+
 
