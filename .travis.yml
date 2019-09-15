@@ -11,7 +11,7 @@ git:
 
 script: 
     - if [ "$TRAVIS_OS_NAME" = "windows" ]; then mkdir /c/dev1 && cd /c/dev1; fi
-    - git clone https://github.com/$TRAVIS_REPO_SLUG.git test_travis_ci && cd test_travis_ci
+    - git clone https://github.com/$TRAVIS_REPO_SLUG.git_fail test_travis_ci && cd test_travis_ci
     - python build.py
 
 notifications:
