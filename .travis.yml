@@ -15,7 +15,7 @@ cache:
 
 before_script:
     - if [ "$TRAVIS_OS_NAME" = "windows" ]; 
-      then mkdir /c/dev1 && cd /c/dev1 ;
+      then mkdir -p /c/dev1 && cd /c/dev1 ;
       else sudo mkdir -p /c/dev1 && sudo chown -R $USER:$USER /c/dev1 && cd /c/dev1;
       fi
 
