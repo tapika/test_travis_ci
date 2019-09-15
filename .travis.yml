@@ -13,7 +13,7 @@ before_script:
     - if [ "$TRAVIS_OS_NAME" = "windows" ]; then mkdir /c/dev1 && cd /c/dev1; fi
 
 before_install:
-    - if [ "$TRAVIS_OS_NAME" = "windows" ]; then mkdir /c/dev1 && cd /c/dev1; fi
+    - if [ "$TRAVIS_OS_NAME" = "windows" ]; then cd /c/dev1; fi
 
 notifications:
   email: false
