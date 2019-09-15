@@ -24,6 +24,9 @@ print("OS: " + platform.system().lower())
 #for item, value in os.environ.items():
 #    print('{}: {}'.format(item, value))
 
+if isWindows:
+    os.system("where git")
+
 if os.utime in getattr(os, 'supports_follow_symlinks', []):
     def lutime(path, times):
         os.utime(path, times, follow_symlinks=False)
