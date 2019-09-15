@@ -16,7 +16,14 @@ cache:
 script: 
     # Fail on first failure
     - set -e
-    - sudo mkdir -p /c/dev1 && cd /c/dev1
+    - if [ "$TRAVIS_OS_NAME" = "windows" ]; then 
+        mkdir /c/dev1
+        cd /c/dev1
+      else
+        sudo mkdir -p /c/dev1
+        chown -R $USER:$USER /c/dev1 
+        cd /c/dev1
+      fi
     - git clone https://github.com/$TRAVIS_REPO_SLUG.git test_travis_ci && cd test_travis_ci
     - python build.py
 
