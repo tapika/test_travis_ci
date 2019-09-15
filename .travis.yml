@@ -13,7 +13,7 @@ before_cache:
     - if [ "$TRAVIS_OS_NAME" = "windows" ]; then 
         export TCACHEDIR=/c/dev1/cppreflect/out;
       else
-        export TCACHEDIR=$HOME/cppreflect/out;
+        export TCACHEDIR=/home/travis/build/cppreflect/out;
       fi
 
 cache:
