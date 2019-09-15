@@ -25,7 +25,7 @@ print("OS: " + platform.system().lower())
 #    print('{}: {}'.format(item, value))
 
 if isWindows:
-    os.system("where git")
+    subprocess.call("where git", shell=True)
 
 if os.utime in getattr(os, 'supports_follow_symlinks', []):
     def lutime(path, times):
@@ -37,7 +37,7 @@ else:
 
 def gitCloneOrUpdate(gitUrl, dir):
     if not os.path.exists(dir):
-        os.system("git clone {} {}".format(gitUrl, dir))
+        subprocess.call("git clone {} {}".format(gitUrl, dir), shell=True)
 
     filelist = set()
 
