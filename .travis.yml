@@ -9,7 +9,7 @@ matrix:
 git:
   clone: false
 
-before_cache:
+before_script:
     - if [ "$TRAVIS_OS_NAME" = "windows" ]; then 
         export TCACHEDIR=/c/dev1/cppreflect/out;
       else
