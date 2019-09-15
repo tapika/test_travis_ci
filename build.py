@@ -125,8 +125,8 @@ cmd = "cmake -DCMAKE_BUILD_TYPE={}".format(buildType)
 if isWindows:
     cmd = cmd + ' -DCMAKE_INSTALL_PREFIX:PATH="{}"'.format(os.path.join(scriptDir, "out", "install", cacheDir))
 
-    ninjaPath =  os.path.join(os.environ["VSINSTALLDIR"],"Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja\\ninja.exe" )
-    cmd = cmd + ' -DCMAKE_MAKE_PROGRAM="{}"'.format(ninjaPath)
+    #ninjaPath =  os.path.join(os.environ["VSINSTALLDIR"],"Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja\\ninja.exe" )
+    #cmd = cmd + ' -DCMAKE_MAKE_PROGRAM="{}"'.format(ninjaPath)
 
     # cmake is really strict even to case sensitive paths. Vs uses 'X' in uppercase.
     cl_path = os.popen('where cl.exe').read().rstrip().replace("Hostx64", "HostX64")
