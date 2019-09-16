@@ -13,7 +13,7 @@ cache:
     directories:
     - /c/dev1/cppreflect/out
 
-before_cache:
+script:
     # Fail on first failure
     - set -e
     - if [ "$TRAVIS_OS_NAME" = "windows" ]; 
@@ -25,9 +25,9 @@ before_cache:
         export PATH="/c/Python27:/c/Python27/Scripts:$PATH";
         choco install python2; 
       fi
+    - mv /c/dev1/cppreflect/out /c/dev1/cppreflect_out
     - python build.py -phase 1
-
-script: 
+    - mv /c/dev1/cppreflect_out /c/dev1/cppreflect/out
     - python build.py -phase 2
 
 notifications:
