@@ -11,9 +11,10 @@ def printEnv():
     for item, value in os.environ.items():
         print('{}: {}'.format(item, value))
 
-printEnv()
+#printEnv()
 
 os.system("python --version")
+os.system("git --version")
 
 if isWindows:
     vswhere_path = r"c:\Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe"
@@ -30,7 +31,7 @@ if isWindows:
             os.environ[pair[0]] = pair[1]
 
 
-printEnv()
+#printEnv()
 print("OS: " + platform.system().lower())
 #print("Current directory: " + os.getcwd() )
 
