@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import os, sys, platform
-import subprocess, shlex
+import subprocess, shlex, shutil
 import argparse
 
 isWindows = platform.system().lower().find("windows") != -1
@@ -72,9 +72,23 @@ def execcmd(cmd):
 # each file.
 #--------------------------------------------------------------
 def gitClone(gitUrl, dir):
-    if not os.path.exists(dir):
+    gitPath=os.path.join(dir, ".git")
+
+    if not os.path.exists(gitPath):
+        outPath=os.path.join(dir, "out")
+        tempOutPath=dir + "_out"
+        manipulateCache = os.path.exists(outPath)
+
+        # Cache is restored, but directory is non empty, cannot do git clone easily.
+        if(manipulateCache):
+            shutil.move(outPath, tempOutPath)
+            os.rmdir(dir)
+
         cmd="git clone {} {}".format(gitUrl, dir)
         execcmd(cmd)
+
+        if(manipulateCache):
+            shutil.move(tempOutPath, outPath)
 
     filelist = set()
 
