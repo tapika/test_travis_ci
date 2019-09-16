@@ -11,7 +11,10 @@ git:
 
 cache:
     directories:
+    # Windows
     - /c/dev1/cppreflect/out
+    # Linux
+    - /home/travis/build/cppreflect/out
 
 script:
     # Fail on first failure
