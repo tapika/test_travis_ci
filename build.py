@@ -81,6 +81,7 @@ def gitClone(gitUrl, dir):
 
         # Cache is restored, but directory is non empty, cannot do git clone easily.
         if(manipulateCache):
+            print ("Cache folder exists, will restore it into correct place")
             shutil.move(outPath, tempOutPath)
             os.rmdir(dir)
 
@@ -153,7 +154,7 @@ if not os.path.exists(cachePath):
 os.chdir(cachePath)
 
 #cmd = "cmake -G Ninja -DCMAKE_BUILD_TYPE={}".format(buildType)
-cmd = "cmake -DCMAKE_BUILD_TYPE={}".format(buildType)
+cmd = "cmake -DCMAKE_BUILD_TYPE={} -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON".format(buildType)
 
 if isWindows:
     cmd = cmd + ' -DCMAKE_INSTALL_PREFIX:PATH="{}"'.format(os.path.join(scriptDir, "out", "install", cacheDir))
