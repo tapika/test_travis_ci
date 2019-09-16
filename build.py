@@ -1,8 +1,14 @@
 #!/usr/bin/python
 import os, sys, platform
 import subprocess, shlex
+import argparse
 
 isWindows = platform.system().lower().find("windows") != -1
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-phase', help='build phase, 1, 2, both')
+args = parser.parse_args()
 
 def printEnv():
     print("---------------------------------------------------")
@@ -13,10 +19,15 @@ def printEnv():
 
 #printEnv()
 
+buildPhase = args.phase
+if buildPhase != "1" and buildPhase != "2":
+    buildPhase="all"
+
+
 os.system("python --version")
 os.system("git --version")
 
-if isWindows:
+if isWindows and buildPhase != "1":
     vswhere_path = r"c:\Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe"
 
     vs_path = os.popen('"{}" -latest -property installationPath'.format(vswhere_path)).read().rstrip()
@@ -62,7 +73,8 @@ def execcmd(cmd):
 #--------------------------------------------------------------
 def gitClone(gitUrl, dir):
     if not os.path.exists(dir):
-        execcmd("git clone {} {}".format(gitUrl, dir))
+        cmd="git clone {} {}".format(gitUrl, dir)
+        execcmd(cmd)
 
     filelist = set()
 
@@ -105,7 +117,12 @@ def gitClone(gitUrl, dir):
 scriptDir=os.path.dirname(os.path.realpath(__file__))
 
 projDir = os.path.join(scriptDir, "..", "cppreflect")
-gitClone("https://github.com/tapika/cppreflect", projDir)
+
+if buildPhase != "2":
+    gitClone("https://github.com/tapika/cppreflect", projDir)
+
+if buildPhase == "1":
+    sys.exit(0)
 
 buildType = "Release"
 

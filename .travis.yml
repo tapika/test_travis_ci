@@ -13,21 +13,22 @@ cache:
     directories:
     - /c/dev1/cppreflect/out
 
-before_script:
+before_cache:
+    # Fail on first failure
+    - set -e
     - if [ "$TRAVIS_OS_NAME" = "windows" ]; 
       then mkdir -p /c/dev1 && cd /c/dev1 ;
       else sudo mkdir -p /c/dev1 && sudo chown -R $USER:$USER /c/dev1 && cd /c/dev1;
       fi
-
-script: 
-    # Fail on first failure
-    - set -e
     - git clone https://github.com/$TRAVIS_REPO_SLUG.git test_travis_ci && cd test_travis_ci
     - if [ "$TRAVIS_OS_NAME" = "windows" ]; then 
         export PATH="/c/Python27:/c/Python27/Scripts:$PATH";
         choco install python2; 
       fi
-    - python build.py
+    - python build.py -phase 1
+
+script: 
+    - python build.py -phase 2
 
 notifications:
   email: false
