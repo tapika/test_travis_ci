@@ -7,7 +7,6 @@ isWindows = platform.system().lower().find("windows") != -1
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-phase', help='build phase, 1, 2, both')
 args = parser.parse_args()
 
 def printEnv():
@@ -19,15 +18,10 @@ def printEnv():
 
 #printEnv()
 
-buildPhase = args.phase
-if buildPhase != "1" and buildPhase != "2":
-    buildPhase="all"
-
-
 os.system("python --version")
 os.system("git --version")
 
-if isWindows and buildPhase != "1":
+if isWindows:
     vswhere_path = r"c:\Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe"
 
     vs_path = os.popen('"{}" -latest -property installationPath'.format(vswhere_path)).read().rstrip()
@@ -132,12 +126,7 @@ def gitClone(gitUrl, dir):
 scriptDir=os.path.dirname(os.path.realpath(__file__))
 
 projDir = os.path.join(scriptDir, "..", "cppreflect")
-
-if buildPhase != "2":
-    gitClone("https://github.com/tapika/cppreflect", projDir)
-
-if buildPhase == "1":
-    sys.exit(0)
+gitClone("https://github.com/tapika/cppreflect", projDir)
 
 buildType = "Release"
 
@@ -154,7 +143,8 @@ if not os.path.exists(cachePath):
 os.chdir(cachePath)
 
 #cmd = "cmake -G Ninja -DCMAKE_BUILD_TYPE={}".format(buildType)
-cmd = "cmake -DCMAKE_BUILD_TYPE={} -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON".format(buildType)
+cmd = "cmake -DCMAKE_BUILD_TYPE={}".format(buildType)
+# -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
 
 if isWindows:
     cmd = cmd + ' -DCMAKE_INSTALL_PREFIX:PATH="{}"'.format(os.path.join(scriptDir, "out", "install", cacheDir))
