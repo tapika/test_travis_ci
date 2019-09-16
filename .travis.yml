@@ -25,9 +25,10 @@ script:
         export PATH="/c/Python27:/c/Python27/Scripts:$PATH";
         choco install python2; 
       fi
-    - mv /c/dev1/cppreflect/out /c/dev1/cppreflect_out
+    - mv ../cppreflect/out ../cppreflect_out
+    - rmdir ../cppreflect
     - python build.py -phase 1
-    - mv /c/dev1/cppreflect_out /c/dev1/cppreflect/out
+    - mv ../cppreflect_out ../cppreflect/out
     - python build.py -phase 2
 
 notifications:
