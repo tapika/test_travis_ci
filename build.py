@@ -36,6 +36,7 @@ print("OS: " + platform.system().lower())
 #print("Current directory: " + os.getcwd() )
 
 if isWindows:
+    print("where git: ")
     subprocess.call("where git", shell=True)
 
 if os.utime in getattr(os, 'supports_follow_symlinks', []):
