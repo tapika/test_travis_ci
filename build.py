@@ -7,7 +7,13 @@ isWindows = platform.system().lower().find("windows") != -1
 
 
 parser = argparse.ArgumentParser()
+parser.add_argument('-buildtype', help='Select build configuration, one of: Debug/Release')
 args = parser.parse_args()
+
+builtByBuilder=os.environ.get('TRAVIS')
+
+buildType = args.buildtype
+if buildType == None: buildType="Release"
 
 def printEnv():
     print("---------------------------------------------------")
@@ -16,10 +22,11 @@ def printEnv():
     for item, value in os.environ.items():
         print('{}: {}'.format(item, value))
 
-#printEnv()
+if builtByBuilder:
+    printEnv()
 
-os.system("python --version")
-os.system("git --version")
+#os.system("python --version")
+#os.system("git --version")
 
 if isWindows:
     vswhere_path = r"c:\Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe"
@@ -28,7 +35,7 @@ if isWindows:
     vsvars_path = os.path.join(vs_path, "VC\\Auxiliary\\Build\\vcvars64.bat")
 
     output = os.popen('"{}" && set'.format(vsvars_path)).read()
-    print("output:" + output + "---------------")
+    #print("output:" + output + "---------------")
 
     for line in output.splitlines():
         pair = line.split("=", 1)
@@ -127,8 +134,6 @@ scriptDir=os.path.dirname(os.path.realpath(__file__))
 
 projDir = os.path.join(scriptDir, "..", "cppreflect")
 gitClone("https://github.com/tapika/cppreflect", projDir)
-
-buildType = "Release"
 
 if isWindows:
     cacheDir = "x64-" + buildType

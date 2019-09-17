@@ -1,10 +1,19 @@
 language: cpp
+dist: bionic
 
 matrix:
   include:
   - os: linux
-    dist: bionic
+    env: BUILD_TYPE=Release
+
+  - os: linux
+    env: BUILD_TYPE=Debug
+
   - os: windows
+    env: BUILD_TYPE=Release
+
+  - os: windows
+    env: BUILD_TYPE=Debug
 
 git:
   clone: false
@@ -29,7 +38,7 @@ script:
         export PATH="/c/Python27:/c/Python27/Scripts:$PATH";
         choco install python2; 
       fi
-    - python build.py
+    - python build.py -buildtype $BUILD_TYPE
 
 notifications:
   email: false
