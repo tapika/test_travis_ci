@@ -20,7 +20,7 @@ git:
 
 cache:
     directories:
-    $BUILD_DIR/cppreflect/out
+    - $BUILD_DIR/cppreflect/out
 
 script:
     # Fail on first failure
