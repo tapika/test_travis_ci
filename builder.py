@@ -58,24 +58,10 @@ else:
 # each file.
 #--------------------------------------------------------------
 def gitOp(operation, gitUrl, dir):
-    gitPath=os.path.join(dir, ".git")
 
-    if not os.path.exists(gitPath):
-        outPath=os.path.join(dir, "out")
-        tempOutPath=dir + "_out"
-        manipulateCache = os.path.exists(outPath)
-
-        # Cache is restored, but directory is non empty, cannot do git clone easily.
-        if(manipulateCache):
-            print ("Cache folder exists, will restore it into correct place")
-            shutil.move(outPath, tempOutPath)
-            os.rmdir(dir)
-
+    if not os.path.exists(dir):
         cmd="git {} {} {}".format(operation, gitUrl, dir)
         execcmd(cmd)
-
-        if(manipulateCache):
-            shutil.move(tempOutPath, outPath)
 
     filelist = set()
 

@@ -25,7 +25,7 @@ if isWindows:
 else:
     cacheDir = "WSL-" + buildType
 
-cachePath = os.path.join(scriptDir, "..", "cppreflect", "out", cacheDir)
+cachePath = os.path.join(scriptDir, "..", "out", cacheDir)
 
 if not os.path.exists(cachePath):
     os.makedirs(cachePath)
