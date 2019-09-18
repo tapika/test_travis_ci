@@ -18,8 +18,14 @@ builtByBuilder=os.environ.get('TRAVIS')
 scriptDir=os.path.dirname(os.path.realpath(__file__))
 projDir = os.path.join(scriptDir, "..", "src")
 
-builder.gitClone("http://root.cern.ch/git/llvm.git", projDir, False)
-builder.gitCheckout("cling-patches", projDir, True)
+builder.gitClone("-b cling-patches http://root.cern.ch/git/llvm.git", projDir)
+toolsDir = os.path.join(projDir, "tools")
+
+os.chdir(toolsDir)
+builder.gitClone("http://root.cern.ch/git/cling.git", "cling")
+
+os.chdir(toolsDir)
+builder.gitClone("-b cling-patches http://root.cern.ch/git/clang.git", "clang")
 
 if isWindows:
     cacheDir = "x64-" + buildType
