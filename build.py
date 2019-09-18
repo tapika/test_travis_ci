@@ -58,6 +58,7 @@ cmd = cmd + ' "{}"'.format(projDir)
 execcmd(cmd)
 
 cmd='cmake --build "{}" --config {}'.format(cachePath, buildType)
-execcmd(cmd)
+if not execcmd(cmd, True, 30*60*60):    # 30 min
+    print ("\nNote: Cancelled build, timeout\n")
 
 

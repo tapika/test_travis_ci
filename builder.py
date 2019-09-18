@@ -2,6 +2,7 @@
 import os, sys, platform
 import subprocess, shlex, shutil
 import datetime
+import psutil
 
 isWindows = platform.system().lower().find("windows") != -1
 
@@ -12,15 +13,28 @@ def printEnv():
     for item, value in os.environ.items():
         print('{}: {}'.format(item, value))
 
+def kill(proc_pid):
+    process = psutil.Process(proc_pid)
+    for proc in process.children(recursive=True):
+        proc.kill()
+    process.kill()
+
 #--------------------------------------------------------------
 # Start command, if exit code is not zero, throw exception.
 #--------------------------------------------------------------
-def execcmd(cmd, measureTime = True):
+def execcmd(cmd, measureTime = True, timeout = 60*60*60):
     if measureTime:
         print(cmd)
         start_time = datetime.datetime.now() 
 
-    exitCode = subprocess.call(cmd + " 2>&1", shell=True)
+    proc = subprocess.Popen(cmd)
+    try:
+        proc.wait(timeout=timeout)
+        exitCode = proc.returncode
+    except subprocess.TimeoutExpired:
+        print("- Timeout, killing executing process")
+        kill(proc.pid)
+        return False
 
     time_elapsed = datetime.datetime.now() - start_time 
     if measureTime:
@@ -29,6 +43,8 @@ def execcmd(cmd, measureTime = True):
     if exitCode != 0:
         msg="Command '{}' failed, exit code: {}".format(cmd, exitCode)
         raise Exception(msg)
+
+    return True
 
 if isWindows:
     vswhere_path = r"c:\Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe"
