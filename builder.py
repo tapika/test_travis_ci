@@ -27,7 +27,7 @@ def execcmd(cmd, measureTime = True, timeout = 60*60*60):
         print(cmd)
         start_time = datetime.datetime.now() 
 
-    proc = subprocess.Popen(cmd)
+    proc = subprocess.Popen(cmd, shell=True)
     try:
         proc.wait(timeout=timeout)
         exitCode = proc.returncode
