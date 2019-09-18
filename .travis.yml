@@ -4,20 +4,16 @@ dist: bionic
 matrix:
   include:
   - os: linux
-    env: BUILD_TYPE=Release
-    env: BUILD_DIR=/home/travis/build
+    env: BUILD_TYPE=Release BUILD_DIR=/home/travis/build
 
   - os: linux
-    env: BUILD_TYPE=Debug
-    env: BUILD_DIR=/home/travis/build
+    env: BUILD_TYPE=Debug BUILD_DIR=/home/travis/build
 
   - os: windows
-    env: BUILD_TYPE=Release
-    env: BUILD_DIR=/c/dev1
+    env: BUILD_TYPE=Release BUILD_DIR=/c/dev1
 
   - os: windows
-    env: BUILD_TYPE=Debug
-    env: BUILD_DIR=/c/dev1
+    env: BUILD_TYPE=Debug BUILD_DIR=/c/dev1
 
 git:
   clone: false
