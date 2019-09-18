@@ -5,9 +5,11 @@ matrix:
   include:
   - os: linux
     env: BUILD_TYPE=Release BUILD_DIR=/home/travis/build
+    python: 3.7
 
   - os: linux
     env: BUILD_TYPE=Debug BUILD_DIR=/home/travis/build
+    python: 3.7
 
   - os: windows
     env: BUILD_TYPE=Release BUILD_DIR=/c/dev1
