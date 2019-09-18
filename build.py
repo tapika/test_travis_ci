@@ -18,8 +18,8 @@ builtByBuilder=os.environ.get('TRAVIS')
 scriptDir=os.path.dirname(os.path.realpath(__file__))
 projDir = os.path.join(scriptDir, "..", "src")
 
-builder.gitClone("http://root.cern.ch/git/llvm.git", projDir)
-builder.gitCheckout("cling-patches")
+builder.gitClone("http://root.cern.ch/git/llvm.git", projDir, False)
+builder.gitCheckout("cling-patches", projDir, True)
 
 if isWindows:
     cacheDir = "x64-" + buildType

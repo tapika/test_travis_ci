@@ -57,11 +57,20 @@ else:
 # Clones or checkouts git repostory, restores modification times of 
 # each file.
 #--------------------------------------------------------------
-def gitOp(operation, gitUrl, dir):
+def gitOp(operation, gitUrl, dir, setTimestamps = True):
 
-    if not os.path.exists(dir):
+    if os.path.exists(dir):
+        os.chdir(dir)
+        return
+
+    if operation=="checkout":
+        cmd="git checkout {}".format(gitUrl)
+    else:
         cmd="git {} {} {}".format(operation, gitUrl, dir)
-        execcmd(cmd)
+    execcmd(cmd)
+
+    if not setTimestamps:
+        return
 
     filelist = set()
 
@@ -105,9 +114,9 @@ def gitOp(operation, gitUrl, dir):
     print('\nTimestamps updated in: {} sec\n'.format(time_elapsed))
 
 
-def gitClone(gitUrl, dir):
-    gitOp("clone", gitUrl, dir)
+def gitClone(gitUrl, dir, setTimestamps = True):
+    gitOp("clone", gitUrl, dir, setTimestamps)
 
-def gitCheckout(gitUrl, dir = ""):
-    gitOp("checkout", gitUrl, dir)
+def gitCheckout(gitUrl, dir, setTimestamps = True):
+    gitOp("checkout", gitUrl, dir, setTimestamps)
 
