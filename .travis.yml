@@ -42,6 +42,7 @@ script:
         sudo apt-get install python3-pip;
         sudo apt-get install -y python3-setuptools;
         sudo apt-get install python-dev;
+        pip3 install wheel;
         pip3 install psutil;
         python3 build.py -buildtype $BUILD_TYPE;
       fi
