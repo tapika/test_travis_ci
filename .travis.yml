@@ -36,6 +36,9 @@ script:
     - if [ "$TRAVIS_OS_NAME" = "windows" ]; then 
         choco install python3; 
         export PATH="/c/Python37:/c/Python37/Scripts:$PATH";
+      else
+        sudo apt-get install python3-pip;
+        alias python=python3;
       fi
     - pip install psutil
     - python build.py -buildtype $BUILD_TYPE
