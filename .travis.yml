@@ -37,12 +37,12 @@ script:
         choco install python3; 
         export PATH="/c/Python37:/c/Python37/Scripts:$PATH";
         pip install psutil;
+        python build.py -buildtype $BUILD_TYPE;
       else
-        sudo apt-get install python3-pip;
-        alias python=python3;
+        sudo apt-get install -y python3-setuptools;
         pip3 install psutil;
+        python3 build.py -buildtype $BUILD_TYPE;
       fi
-    - python build.py -buildtype $BUILD_TYPE
 
 notifications:
   email: false
