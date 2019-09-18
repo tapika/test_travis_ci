@@ -1,139 +1,24 @@
 #!/usr/bin/python
 import os, sys, platform
-import subprocess, shlex, shutil
 import argparse
+import builder
+from builder import execcmd
 
 isWindows = platform.system().lower().find("windows") != -1
-
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-buildtype', help='Select build configuration, one of: Debug/Release')
 args = parser.parse_args()
 
-builtByBuilder=os.environ.get('TRAVIS')
-
 buildType = args.buildtype
 if buildType == None: buildType="Release"
 
-def printEnv():
-    print("---------------------------------------------------")
-    print("Environment variables:")
-    print("---------------------------------------------------")
-    for item, value in os.environ.items():
-        print('{}: {}'.format(item, value))
-
-#--------------------------------------------------------------
-# Start command, if exit code is not zero, throw exception.
-#--------------------------------------------------------------
-def execcmd(cmd):
-    exitCode = subprocess.call(cmd + " 2>&1", shell=True)
-    if exitCode != 0:
-        msg="Command '{}' failed, exit code: {}".format(cmd, exitCode)
-        raise Exception(msg)
-
-if builtByBuilder:
-    printEnv()
-
-#execcmd("python --version")
-#execcmd("git --version")
-
-if isWindows:
-    vswhere_path = r"c:\Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe"
-
-    vs_path = os.popen('"{}" -latest -property installationPath'.format(vswhere_path)).read().rstrip()
-    vsvars_path = os.path.join(vs_path, "VC\\Auxiliary\\Build\\vcvars64.bat")
-
-    output = os.popen('"{}" && set'.format(vsvars_path)).read()
-    #print("output:" + output + "---------------")
-
-    for line in output.splitlines():
-        pair = line.split("=", 1)
-        if(len(pair) >= 2):
-            os.environ[pair[0]] = pair[1]
-
-
-#printEnv()
-print("OS: " + platform.system().lower())
-#print("Current directory: " + os.getcwd() )
-
-if isWindows:
-    print("where git: ")
-    execcmd("where git")
-
-if os.utime in getattr(os, 'supports_follow_symlinks', []):
-    def lutime(path, times):
-        os.utime(path, times, follow_symlinks=False)
-else:
-    def lutime(path, times):
-        if not os.path.islink(path):
-            os.utime(path, times)
-
-#--------------------------------------------------------------
-# Clones git repostory, restores modification times of 
-# each file.
-#--------------------------------------------------------------
-def gitClone(gitUrl, dir):
-    gitPath=os.path.join(dir, ".git")
-
-    if not os.path.exists(gitPath):
-        outPath=os.path.join(dir, "out")
-        tempOutPath=dir + "_out"
-        manipulateCache = os.path.exists(outPath)
-
-        # Cache is restored, but directory is non empty, cannot do git clone easily.
-        if(manipulateCache):
-            print ("Cache folder exists, will restore it into correct place")
-            shutil.move(outPath, tempOutPath)
-            os.rmdir(dir)
-
-        cmd="git clone {} {}".format(gitUrl, dir)
-        execcmd(cmd)
-
-        if(manipulateCache):
-            shutil.move(tempOutPath, outPath)
-
-    filelist = set()
-
-    for root, subdirs, files in os.walk(dir):
-        for d in subdirs:
-            if(d == ".git" or d == "out"):
-                subdirs.remove(d);
-
-        for file in files:
-            filelist.add(os.path.relpath(os.path.join(root, file), dir))
-
-    os.chdir(dir)
-
-    mtime = 0
-    process = subprocess.Popen(shlex.split('git whatchanged --pretty=%at'), stdout=subprocess.PIPE)
-
-    for line in process.stdout:
-        line = line.strip().decode()
-
-        # Blank line between Date and list of files
-        if not line: continue
-
-        # File line
-        if line.startswith(':'):
-            file = os.path.normpath(line.split('\t')[-1])
-            if file in filelist:
-                filelist.remove(file)
-                # print mtime, file
-                lutime(file, (mtime, mtime))
-
-        # Date line
-        else:
-            mtime = int(line)
-
-        # All files done?
-        if not filelist:
-            break
-
+builtByBuilder=os.environ.get('TRAVIS')
 
 scriptDir=os.path.dirname(os.path.realpath(__file__))
-
 projDir = os.path.join(scriptDir, "..", "cppreflect")
-gitClone("https://github.com/tapika/cppreflect", projDir)
+
+builder.gitClone("https://github.com/tapika/cppreflect", projDir)
 
 if isWindows:
     cacheDir = "x64-" + buildType
@@ -163,12 +48,9 @@ if isWindows:
     #cmd = cmd + ' -DCMAKE_C_COMPILER:FILEPATH="{}"'.format(cl_path)
 
 cmd = cmd + ' "{}"'.format(projDir)
-
-print(cmd)
 execcmd(cmd)
 
 cmd='cmake --build "{}" --config {}'.format(cachePath, buildType)
-print(cmd)
 execcmd(cmd)
 
 
