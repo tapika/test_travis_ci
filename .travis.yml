@@ -5,25 +5,26 @@ matrix:
   include:
   - os: linux
     env: BUILD_TYPE=Release
+         BUILD_DIR=/home/travis/build
 
   - os: linux
     env: BUILD_TYPE=Debug
+         BUILD_DIR=/home/travis/build
 
   - os: windows
     env: BUILD_TYPE=Release
+         BUILD_DIR=/c/dev1
 
   - os: windows
     env: BUILD_TYPE=Debug
+         BUILD_DIR=/c/dev1
 
 git:
   clone: false
 
 cache:
     directories:
-    # Windows
-    - /c/dev1/cppreflect/out
-    # Linux
-    - /home/travis/build/cppreflect/out
+    $BUILD_DIR/cppreflect/out
 
 script:
     # Fail on first failure
