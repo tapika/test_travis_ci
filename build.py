@@ -22,11 +22,20 @@ def printEnv():
     for item, value in os.environ.items():
         print('{}: {}'.format(item, value))
 
+#--------------------------------------------------------------
+# Start command, if exit code is not zero, throw exception.
+#--------------------------------------------------------------
+def execcmd(cmd):
+    exitCode = subprocess.call(cmd + " 2>&1", shell=True)
+    if exitCode != 0:
+        msg="Command '{}' failed, exit code: {}".format(cmd, exitCode)
+        raise Exception(msg)
+
 if builtByBuilder:
     printEnv()
 
-#os.system("python --version")
-#os.system("git --version")
+#execcmd("python --version")
+#execcmd("git --version")
 
 if isWindows:
     vswhere_path = r"c:\Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe"
@@ -49,7 +58,7 @@ print("OS: " + platform.system().lower())
 
 if isWindows:
     print("where git: ")
-    subprocess.call("where git", shell=True)
+    execcmd("where git")
 
 if os.utime in getattr(os, 'supports_follow_symlinks', []):
     def lutime(path, times):
@@ -58,15 +67,6 @@ else:
     def lutime(path, times):
         if not os.path.islink(path):
             os.utime(path, times)
-
-#--------------------------------------------------------------
-# Start command, if exit code is not zero, throw exception.
-#--------------------------------------------------------------
-def execcmd(cmd):
-    exitCode = subprocess.call(cmd, shell=True)
-    if exitCode != 0:
-        msg="Command '{}' failed, exit code: {}".format(cmd, exitCode)
-        raise Exception(msg)
 
 #--------------------------------------------------------------
 # Clones git repostory, restores modification times of 
@@ -108,7 +108,7 @@ def gitClone(gitUrl, dir):
     process = subprocess.Popen(shlex.split('git whatchanged --pretty=%at'), stdout=subprocess.PIPE)
 
     for line in process.stdout:
-        line = line.strip()
+        line = line.strip().decode()
 
         # Blank line between Date and list of files
         if not line: continue
@@ -123,7 +123,7 @@ def gitClone(gitUrl, dir):
 
         # Date line
         else:
-            mtime = long(line)
+            mtime = int(line)
 
         # All files done?
         if not filelist:
