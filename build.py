@@ -16,9 +16,10 @@ if buildType == None: buildType="Release"
 builtByBuilder=os.environ.get('TRAVIS')
 
 scriptDir=os.path.dirname(os.path.realpath(__file__))
-projDir = os.path.join(scriptDir, "..", "cppreflect")
+projDir = os.path.join(scriptDir, "..", "src")
 
-builder.gitClone("https://github.com/tapika/cppreflect", projDir)
+builder.gitClone("http://root.cern.ch/git/llvm.git", projDir)
+builder.gitCheckout("cling-patches")
 
 if isWindows:
     cacheDir = "x64-" + buildType

@@ -108,6 +108,6 @@ def gitOp(operation, gitUrl, dir):
 def gitClone(gitUrl, dir):
     gitOp("clone", gitUrl, dir)
 
-def gitCheckout(gitUrl, dir):
+def gitCheckout(gitUrl, dir = ""):
     gitOp("checkout", gitUrl, dir)
 
