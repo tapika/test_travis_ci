@@ -57,7 +57,7 @@ if isWindows:
 cmd = cmd + ' "{}"'.format(projDir)
 execcmd(cmd)
 
-cmd='cmake -j 2 --build "{}" --config {}'.format(cachePath, buildType)
+cmd='cmake --build "{}" --config {}'.format(cachePath, buildType)
 if not execcmd(cmd, True, 25*60*60):    # 25 min
     print ("\nNote: Cancelled build, timeout\n")
 
