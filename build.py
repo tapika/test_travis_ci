@@ -64,8 +64,12 @@ if isWindows:
 cmd = cmd + ' "{}"'.format(projDir)
 execcmd(cmd)
 
-#cmd='cmake --build "{}" --config {}'.format(cachePath, buildType)
-cmd='ninja -j 2 "{}" '.format(cachePath)
+buildCpus = 8
+if builtByBuilder:
+    buildCpus = 2
+
+os.chdir(cachePath)
+cmd='ninja -j {} cling'.format(buildCpus)
 if not execcmd(cmd, True, 5*60):    # N min
     print ("\nNote: Cancelled build, timeout\n")
 
