@@ -46,8 +46,8 @@ if not os.path.exists(cachePath):
 
 os.chdir(cachePath)
 
-#cmd = "cmake -G Ninja -DCMAKE_BUILD_TYPE={}".format(buildType)
-cmd = "cmake -DCMAKE_BUILD_TYPE={}".format(buildType)
+cmd = "cmake -G Ninja -DCMAKE_BUILD_TYPE={}".format(buildType)
+#cmd = "cmake -DCMAKE_BUILD_TYPE={}".format(buildType)
 # -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
 
 if isWindows:
@@ -64,7 +64,8 @@ if isWindows:
 cmd = cmd + ' "{}"'.format(projDir)
 execcmd(cmd)
 
-cmd='cmake --build "{}" --config {}'.format(cachePath, buildType)
+#cmd='cmake --build "{}" --config {}'.format(cachePath, buildType)
+cmd='ninja -j 2 "{}" '.format(cachePath)
 if not execcmd(cmd, True, 5*60):    # N min
     print ("\nNote: Cancelled build, timeout\n")
 
