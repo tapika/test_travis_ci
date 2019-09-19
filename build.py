@@ -64,13 +64,18 @@ if isWindows:
 cmd = cmd + ' "{}"'.format(projDir)
 execcmd(cmd)
 
-buildCpus = 8
+buildCpus = 7
 if builtByBuilder:
     buildCpus = 2
 
+buildTimeoutMin = 30
+
+if not builtByBuilder:
+    buildTimeoutMin = 2*60
+
 os.chdir(cachePath)
 cmd='ninja -j {} cling'.format(buildCpus)
-if not execcmd(cmd, True, 5*60):    # N min
+if not execcmd(cmd, True, buildTimeoutMin*60):
     print ("\nNote: Cancelled build, timeout\n")
 
 
