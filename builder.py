@@ -60,7 +60,7 @@ if isWindows:
     vsvars_path = os.path.join(vs_path, "VC\\Auxiliary\\Build\\vcvars64.bat")
 
     if not os.path.exists(vsvars_path):
-        vs_path=r"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+        vsvars_path=r"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
 
     print( "Probing path: " + vsvars_path )
     print( str(os.path.exists(vsvars_path)) )
