@@ -58,6 +58,7 @@ if isWindows:
 
     vsvars_path = os.path.join(vs_path, "VC\\Auxiliary\\Build\\vcvars64.bat")
 
+    print( "Probing path: " + vsvars_path )
     print( str(os.path.exists(vsvars_path)) )
     output = os.popen('"{}" && set'.format(vsvars_path)).read()
 
