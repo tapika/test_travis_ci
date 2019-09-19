@@ -15,6 +15,13 @@ if buildType == None: buildType="Release"
 
 builtByBuilder=os.environ.get('TRAVIS')
 
+print("build.py, running on python " + platform.python_version() )
+
+if isWindows:
+    execcmd("where ninja")
+else:
+    execcmd("which ninja")
+
 scriptDir=os.path.dirname(os.path.realpath(__file__))
 projDir = os.path.join(scriptDir, "..", "src")
 
@@ -58,7 +65,7 @@ cmd = cmd + ' "{}"'.format(projDir)
 execcmd(cmd)
 
 cmd='cmake --build "{}" --config {}'.format(cachePath, buildType)
-if not execcmd(cmd, True, 30*60):    # 30 min
+if not execcmd(cmd, True, 5*60):    # N min
     print ("\nNote: Cancelled build, timeout\n")
 
 
