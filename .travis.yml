@@ -36,6 +36,7 @@ script:
     - if [ "$TRAVIS_OS_NAME" = "windows" ]; then 
         choco install python3;
         choco install ninja;
+        choco install visualstudio2017-workload-vctools -y;
         export PATH="/c/Python37:/c/Python37/Scripts:$PATH";
         pip install psutil;
         cmd //c python build.py -buildtype $BUILD_TYPE;
