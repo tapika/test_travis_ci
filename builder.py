@@ -79,7 +79,7 @@ def gitClone(gitUrl, dir, setTimestamps = True):
         os.chdir(dir)
         return
 
-    cmd="git {} --depth=1 {} {}".format(operation, gitUrl, dir)
+    cmd="git {} --depth=1 {} {}".format(gitUrl, dir)
     execcmd(cmd)
 
     if not setTimestamps:
