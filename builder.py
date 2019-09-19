@@ -58,6 +58,8 @@ if isWindows:
 
     vsvars_path = os.path.join(vs_path, "VC\\Auxiliary\\Build\\vcvars64.bat")
 
+    execcmd(r' dir "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build"')
+
     print( "Probing path: " + vsvars_path )
     print( str(os.path.exists(vsvars_path)) )
     output = os.popen('"{}" && set'.format(vsvars_path)).read()
