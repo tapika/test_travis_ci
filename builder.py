@@ -58,11 +58,11 @@ if isWindows:
 
     vsvars_path = os.path.join(vs_path, "VC\\Auxiliary\\Build\\vcvars64.bat")
 
-    if not os.path.exists(vsvars_path):
-        print("Error: " + vsvars_path + " does not exists")
-        sys.stdout.flush()
-
+    print( str(os.path.exists(vsvars_path)) )
     output = os.popen('"{}" && set'.format(vsvars_path)).read()
+
+    print("output: " + output)
+    sys.stdout.flush()
 
     for line in output.splitlines():
         pair = line.split("=", 1)
