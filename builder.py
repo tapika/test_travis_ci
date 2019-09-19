@@ -53,8 +53,14 @@ if isWindows:
     vswhere_path = r"c:\Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe"
 
     vs_path = os.popen('"{}" -latest -property installationPath'.format(vswhere_path)).read().rstrip()
-    execcmd('"{}" -latest -property installationPath'.format(vswhere_path))
+    if vs_path == "":
+        vs_path="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise"
+
     vsvars_path = os.path.join(vs_path, "VC\\Auxiliary\\Build\\vcvars64.bat")
+
+    if not os.path.exists(vsvars_path):
+        print("Error: " + vsvars_path + " does not exists")
+        sys.stdout.flush()
 
     output = os.popen('"{}" && set'.format(vsvars_path)).read()
 
