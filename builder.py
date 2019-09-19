@@ -53,6 +53,7 @@ if isWindows:
     vswhere_path = r"c:\Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe"
 
     vs_path = os.popen('"{}" -latest -property installationPath'.format(vswhere_path)).read().rstrip()
+    execcmd(vswhere_path)
     vsvars_path = os.path.join(vs_path, "VC\\Auxiliary\\Build\\vcvars64.bat")
 
     output = os.popen('"{}" && set'.format(vsvars_path)).read()
