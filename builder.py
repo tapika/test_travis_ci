@@ -50,11 +50,11 @@ def execcmd(cmd, measureTime = True, timeout = 60*60*60):
     return True
 
 if isWindows:
-    vswhere_path = r"c:\Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe"
+    vswhere_path = r"c:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe"
 
     vs_path = os.popen('"{}" -latest -property installationPath'.format(vswhere_path)).read().rstrip()
     if vs_path == "":
-        vs_path="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise"
+        vs_path=r"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise"
 
     vsvars_path = os.path.join(vs_path, "VC\\Auxiliary\\Build\\vcvars64.bat")
 
