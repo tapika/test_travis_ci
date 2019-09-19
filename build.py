@@ -74,7 +74,7 @@ if not builtByBuilder:
     buildTimeoutMin = 2*60
 
 os.chdir(cachePath)
-cmd='ninja -j {} cling'.format(buildCpus)
+cmd='ninja -j {} cling libcling'.format(buildCpus)
 if not execcmd(cmd, True, buildTimeoutMin*60):
     print ("\nNote: Cancelled build, timeout\n")
 
