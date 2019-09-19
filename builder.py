@@ -62,12 +62,7 @@ if isWindows:
     if not os.path.exists(vsvars_path):
         vsvars_path=r"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
 
-    print( "Probing path: " + vsvars_path )
-    print( str(os.path.exists(vsvars_path)) )
     output = os.popen('"{}" && set'.format(vsvars_path)).read()
-
-    print("output: " + output)
-    sys.stdout.flush()
 
     for line in output.splitlines():
         pair = line.split("=", 1)
