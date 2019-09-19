@@ -25,6 +25,7 @@ def kill(proc_pid):
 def execcmd(cmd, measureTime = True, timeout = 60*60*60):
     if measureTime:
         print(cmd)
+        sys.stdout.flush()
         start_time = datetime.datetime.now() 
 
     proc = subprocess.Popen(cmd, shell=True)
@@ -33,12 +34,14 @@ def execcmd(cmd, measureTime = True, timeout = 60*60*60):
         exitCode = proc.returncode
     except subprocess.TimeoutExpired:
         print("- Timeout, killing executing process")
+        sys.stdout.flush()
         kill(proc.pid)
         return False
 
     time_elapsed = datetime.datetime.now() - start_time 
     if measureTime:
-         print('\nElapsed time: {} sec\n'.format(time_elapsed))
+        print('\nElapsed time: {} sec\n'.format(time_elapsed))
+        sys.stdout.flush()
                                  
     if exitCode != 0:
         msg="Command '{}' failed, exit code: {}".format(cmd, exitCode)

@@ -16,6 +16,7 @@ if buildType == None: buildType="Release"
 builtByBuilder=os.environ.get('TRAVIS')
 
 print("build.py, running on python " + platform.python_version() )
+sys.stdout.flush()
 
 if isWindows:
     execcmd("where ninja")
@@ -77,5 +78,6 @@ os.chdir(cachePath)
 cmd='ninja -j {} cling libcling'.format(buildCpus)
 if not execcmd(cmd, True, buildTimeoutMin*60):
     print ("\nNote: Cancelled build, timeout\n")
+    sys.stdout.flush()
 
 
