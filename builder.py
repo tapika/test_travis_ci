@@ -53,12 +53,14 @@ if isWindows:
     vswhere_path = r"c:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe"
 
     vs_path = os.popen('"{}" -latest -property installationPath'.format(vswhere_path)).read().rstrip()
+
     if vs_path == "":
         vs_path=r"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise"
 
     vsvars_path = os.path.join(vs_path, "VC\\Auxiliary\\Build\\vcvars64.bat")
 
-    execcmd(r' dir "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build"')
+    if not os.path.exists(vsvars_path):
+        vs_path=r"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
 
     print( "Probing path: " + vsvars_path )
     print( str(os.path.exists(vsvars_path)) )
