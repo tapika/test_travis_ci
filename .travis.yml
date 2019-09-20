@@ -38,7 +38,7 @@ script:
         choco install ninja;
         export PATH="/c/Python37:/c/Python37/Scripts:$PATH";
         pip install psutil;
-        travis_wait cmd //c python build.py -buildtype $BUILD_TYPE;
+        cmd //c python build.py -buildtype $BUILD_TYPE;
       else
         sudo apt-get install -y python3-pip python3-setuptools python-dev ninja-build;
         pip3 install wheel;
