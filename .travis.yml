@@ -23,6 +23,7 @@ git:
 cache:
     directories:
     - $BUILD_DIR/out
+    timeout: 1200
 
 script:
     # Fail on first failure
