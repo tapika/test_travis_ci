@@ -69,7 +69,11 @@ buildCpus = 7
 if builtByBuilder:
     buildCpus = 2
 
-buildTimeoutMin = 30
+if buildType == "Release":
+    buildTimeoutMin = 35
+else:
+    # Debug builds are slower generally in windows & linux
+    buildTimeoutMin = 25
 
 if not builtByBuilder:
     buildTimeoutMin = 2*60
