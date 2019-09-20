@@ -80,7 +80,10 @@ if not builtByBuilder:
 
 os.chdir(cachePath)
 
-
+#
+# No output has been received in the last 10m0s, this potentially indicates a stalled build or something wrong with the build itself.
+# Check the details on how to adjust your build configuration on: https://docs.travis-ci.com/user/common-build-problems/#build-times-out-because-no-output-was-received
+#
 pingTime = 5 * 60
 
 stopTimer = False
