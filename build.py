@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import os, sys, platform
-import argparse
+import argparse, threading
 import builder
 from builder import execcmd
 
@@ -79,9 +79,27 @@ if not builtByBuilder:
     buildTimeoutMin = 2*60
 
 os.chdir(cachePath)
+
+
+pingTime = 5 * 60
+
+stopTimer = False
+
+def pingTravis(doPrint = True):
+    if stopTimer:
+        return
+
+    if doPrint: 
+        print("- Build still in progress...")
+        sys.stdout.flush()
+
+    threading.Timer(pingTime, pingTravis).start()
+
+pingTravis(False)
+
 cmd='ninja -j {} cling libcling'.format(buildCpus)
 if not execcmd(cmd, True, buildTimeoutMin*60):
     print ("\nNote: Cancelled build, timeout\n")
     sys.stdout.flush()
 
-
+stopTimer = True
