@@ -100,6 +100,7 @@ def pingTravis(doPrint = True):
 
 pingTravis(False)
 
+
 cmd='ninja -j {} cling libcling'.format(buildCpus)
 if not execcmd(cmd, True, buildTimeoutMin*60):
     print ("\nNote: Cancelled build, timeout\n")
